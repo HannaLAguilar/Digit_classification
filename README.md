@@ -16,5 +16,5 @@ reached more than 98%, except the number 8 which reached 93%
 
 An example of what a prediction looks like:
 
-<img src="./img/img_predict.png" align="center">
+<img src="./img/img_predict.png" width=65% align="center">
 
