@@ -11,6 +11,6 @@ After 20 epochs, which during at 1min 30s, the final valid accuracy was 98%. Tes
 model, every class reached more than 98%, except the number 8m which readched 93%
  (eight, you are difficult!).
  
-<img src="./ims/Figure_1" width=40% align="center">
+<img src="./ims/Figure_1.png" width=40% align="center">
 
 Also, there is a [notebook](https://github.com/HannaLAguilar/Digit_classification/blob/main/Digit_classification.ipynb) for better visualization ;).
