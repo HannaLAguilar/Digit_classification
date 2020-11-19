@@ -34,7 +34,7 @@ print('Total classes:', len(classes))
 
 # Visualize classes
 samples_by_class = num_class(dataset)
-# sns.barplot(x=list(samples_by_class.keys()), y=list(samples_by_class.values()))
+sns.barplot(x=list(samples_by_class.keys()), y=list(samples_by_class.values()))
 
 # Split dataset
 train_idx, valid_idx, test_idx = train_valid_test(dataset, train_ratio=0.8, valid_ratio=0.2)
@@ -69,28 +69,30 @@ print('Training on {}'.format(device.type))
 model = model.to(device)
 
 # Training
-epochs = 10
+epochs = 20
 learning_rate = 0.01
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
-# train_loss, valid_loss, valid_acc = train_model(epochs, model, data_loaders, criterion, optimizer, device)
+train_loss, valid_loss, valid_acc = train_model(epochs, model, data_loaders, criterion, optimizer, device)
 
-# plt.subplot(121)
-# plt.plot(train_loss, label='Train loss')
-# plt.plot(valid_loss, label='Valid loss')
-# plt.xlabel('Epoch')
-# plt.ylabel('Loss')
-# plt.legend()
-#
-# plt.subplot(122)
-# plt.plot(valid_acc, label='Valid Accuracy')
-# plt.xlabel('Epoch')
-# plt.ylabel('Accuracy')
-# plt.legend()
+plt.subplot(121)
+plt.plot(train_loss, label='Train loss')
+plt.plot(valid_loss, label='Valid loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.subplot(122)
+plt.plot(valid_acc, label='Valid Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.tight_layout()
 
 ######################
 # TEST THE MODEL #
 ######################
 state_dict = torch.load('classifier_digit.pt')
 model.load_state_dict(state_dict)
-test_acc, a, b = test_model(classes, model, data_loaders, device)
+test_acc, class_acc = test_model(classes, model, data_loaders, device)
+sns.barplot(y=classes, x=[ii*100 for ii in class_acc])
