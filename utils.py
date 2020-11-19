@@ -76,13 +76,13 @@ def train_model(epochs, model, data_loaders, criterion, optimizer, device):
         print()
 
         # save model
-        # if accuracy > best_acc:
-        #     best_acc = accuracy
-        #     torch.save(model.state_dict(), 'classifier_digit.pt')
+        if accuracy > best_acc:
+            best_acc = accuracy
+            torch.save(model.state_dict(), 'classifier_digit.pt')
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
-    # print('Best Valid Acc: {:.1%}'.format(best_acc))
+    print('Best Valid Acc: {:.1%}'.format(best_acc))
     return train_loss_history, valid_loss_history, valid_accuracy_history
 
 
