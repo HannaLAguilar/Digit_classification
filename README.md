@@ -11,4 +11,4 @@ After 20 epochs, which during at 1min 30s, the final valid accuracy was 98%. Tes
 model, every class reached more than 98%, except the number 8m which readched 93%
  (eight, you are difficult!).
  
-<img src="./img/Figure_1.png" width=80% align="center">
+<img src="./img/Figure_1.png" width=70% align="center">
