@@ -50,7 +50,6 @@ def train_model(epochs, model, data_loaders, criterion, optimizer, device):
         # Valid
         model.eval()
         valid_corrects = 0
-        accuracy = None
         for images, labels in data_loaders['valid']:
             images = images.to(device)
             labels = labels.to(device)
@@ -60,7 +59,7 @@ def train_model(epochs, model, data_loaders, criterion, optimizer, device):
 
             _, preds = torch.max(output, 1)
             valid_corrects += (preds == labels).sum().item()
-            accuracy = valid_corrects / len(data_loaders['valid'].sampler)
+        accuracy = valid_corrects / len(data_loaders['valid'].sampler)
 
         # calculate average losses
         train_loss = train_loss / len(data_loaders['train'].sampler)
@@ -85,6 +84,33 @@ def train_model(epochs, model, data_loaders, criterion, optimizer, device):
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     print('Best Valid Acc: {:.1%}'.format(best_acc))
     return train_loss_history, valid_loss_history, valid_accuracy_history
+
+
+def test_model(classes, model, data_loaders, device):
+    num = len(classes)
+    class_correct = list(range(num))
+    class_total = list(range(num))
+
+    model.eval()
+    for images, labels in data_loaders['test']:
+        images = images.to(device)
+        labels = labels.to(device)
+        output = model(images)
+        _, preds = torch.max(output, 1)
+        corrects = preds == labels
+
+        # calculate test accuracy for each object class
+        for ii in range(len(labels.data)):
+            label = labels.data[ii]
+            class_correct[label] += corrects[ii].item()
+            class_total[label] += 1
+    accuracy = np.sum(class_correct)/np.sum(class_total)
+
+    for ii in range(num):
+        print('Test accuracy of {}: {:.1%}'.format(classes[ii], class_correct[ii] / class_total[ii]))
+    print('\nGlobal accuracy: {:.1%}'.format(accuracy))
+    return accuracy, class_correct, class_total
+
 
 
 

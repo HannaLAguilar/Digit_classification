@@ -1,17 +1,10 @@
-import os
-
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import cv2
-from PIL import Image
 
-import torch
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader, SubsetRandomSampler
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
 
 from utils import *
@@ -35,9 +28,9 @@ transform = transforms.Compose([transforms.Resize([32, 32]),
                                 transforms.ToTensor()])
 
 dataset = ImageFolder(data_path, transform=transform)
-classes_name = dataset.classes
+classes = dataset.classes
 print('Total images:', len(dataset))
-print('Total classes:', len(classes_name))
+print('Total classes:', len(classes))
 
 # Visualize classes
 samples_by_class = num_class(dataset)
@@ -62,7 +55,6 @@ images = images.numpy()
 img = images[0].squeeze()
 plt.figure(), plt.imshow(img, cmap='gray')
 
-
 ######################
 # TRAINING THE MODEL #
 ######################
@@ -81,22 +73,24 @@ epochs = 10
 learning_rate = 0.01
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
-train_loss, valid_loss, valid_acc = train_model(epochs, model, data_loaders, criterion, optimizer, device)
+# train_loss, valid_loss, valid_acc = train_model(epochs, model, data_loaders, criterion, optimizer, device)
 
-plt.subplot(121)
-plt.plot(train_loss, label='Train loss')
-plt.plot(valid_loss, label='Valid loss')
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.legend()
-
-plt.subplot(122)
-plt.plot(valid_acc, label='Valid Accuracy')
-plt.xlabel('Epoch')
-plt.ylabel('Accuracy')
-plt.legend()
-
+# plt.subplot(121)
+# plt.plot(train_loss, label='Train loss')
+# plt.plot(valid_loss, label='Valid loss')
+# plt.xlabel('Epoch')
+# plt.ylabel('Loss')
+# plt.legend()
+#
+# plt.subplot(122)
+# plt.plot(valid_acc, label='Valid Accuracy')
+# plt.xlabel('Epoch')
+# plt.ylabel('Accuracy')
+# plt.legend()
 
 ######################
 # TEST THE MODEL #
 ######################
+state_dict = torch.load('classifier_digit.pt')
+model.load_state_dict(state_dict)
+test_acc, a, b = test_model(classes, model, data_loaders, device)
