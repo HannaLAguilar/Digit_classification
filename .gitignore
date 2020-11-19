@@ -2,3 +2,5 @@
 /cat.jpg
 /data/
 /.ipynb_checkpoints/
+/test_cnn.py
+/cifar-10-batches-py/
