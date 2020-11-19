@@ -15,6 +15,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 from utils import *
+from model_cnn import Classifier
 
 ##########
 #  DATA  #
@@ -29,13 +30,14 @@ batch_size = 128
 # Dataset
 transform = transforms.Compose([transforms.Resize([32, 32]),
                                 transforms.Grayscale(),
-                                # transforms.RandomHorizontalFlip(),  # data augmentation
-                                # transforms.RandomRotation(10),  # data augmentation
+                                transforms.RandomHorizontalFlip(),  # data augmentation
+                                transforms.RandomRotation(10),  # data augmentation
                                 transforms.ToTensor()])
 
 dataset = ImageFolder(data_path, transform=transform)
+classes_name = dataset.classes
 print('Total images:', len(dataset))
-print('Total classes:', len(dataset.classes))
+print('Total classes:', len(classes_name))
 
 # Visualize classes
 samples_by_class = num_class(dataset)
@@ -61,33 +63,13 @@ img = images[0].squeeze()
 plt.figure(), plt.imshow(img, cmap='gray')
 
 
-#############
-# CNN MODEL #
-#############
-
-# CNN architecture
-class Classifier(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.conv1 = nn.Conv2d(1, 16, 5, padding=2)
-        self.conv2 = nn.Conv2d(16, 32, 5, padding=2)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.fc1 = nn.Linear(8 * 8 * 32, 10)
-
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(x.size(0), -1)
-        x = self.fc1(x)
-        return x
-
-
-model = Classifier()
-print(model)
-
 ######################
 # TRAINING THE MODEL #
 ######################
+
+# CNN architecture
+model = Classifier()
+print(model)
 
 # CPU/GPU settings
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -95,7 +77,7 @@ print('Training on {}'.format(device.type))
 model = model.to(device)
 
 # Training
-epochs = 5
+epochs = 10
 learning_rate = 0.01
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
@@ -114,8 +96,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
 
-# images, labels = iter(data_loaders['train']).next()
-# img = images[0].unsqueeze(0)
-# img = img.to(device)
-# output = model(img)
-# _, pred = torch.max(output, 1)
+
+######################
+# TEST THE MODEL #
+######################
