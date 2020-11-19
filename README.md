@@ -13,4 +13,4 @@ model, every class reached more than 98%, except the number 8m which readched 93
  
 <img src="./ims/Figure_1" width=40% align="center">
 
-Also, there is a [notebook]() for better visualization ;).
+Also, there is a [notebook](https://github.com/HannaLAguilar/Digit_classification/blob/main/Digit_classification.ipynb) for better visualization ;).
