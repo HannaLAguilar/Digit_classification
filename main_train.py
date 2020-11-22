@@ -35,7 +35,7 @@ print('Total classes:', len(classes))
 
 # Visualize classes
 samples_by_class = num_class(dataset)
-# sns.barplot(x=list(samples_by_class.keys()), y=list(samples_by_class.values()))
+sns.barplot(x=list(samples_by_class.keys()), y=list(samples_by_class.values()))
 
 # Split dataset
 train_idx, valid_idx, test_idx = train_valid_test(dataset, train_ratio=0.8, valid_ratio=0.2)
@@ -52,17 +52,17 @@ data_loaders = {
 
 # Visualize img example
 images, labels = iter(data_loaders['train']).next()
-# images = images.numpy()
-# img = images[0].squeeze()
-# plt.figure(), plt.imshow(img, cmap='gray')
+images = images.numpy()
+img = images[0].squeeze()
+plt.figure(), plt.imshow(img, cmap='gray')
 
 ######################
 # TRAINING THE MODEL #
 ######################
 
 # CNN architecture
-model = Network()
-# model(images)
+model = Classifier()
+print(model)
 
 # CPU/GPU settings
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -73,7 +73,6 @@ model = model.to(device)
 epochs = 20
 learning_rate = 0.001
 criterion = nn.CrossEntropyLoss()
-# optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 train_loss, valid_loss, valid_acc = train_model(epochs, model, data_loaders, criterion, optimizer, device)
 
@@ -97,4 +96,4 @@ plt.tight_layout()
 state_dict = torch.load('classifier_digit.pt')
 model.load_state_dict(state_dict)
 test_acc, class_acc = test_model(classes, model, data_loaders, device)
-# plt.figure(), sns.barplot(y=classes, x=[ii*100 for ii in class_acc])
+plt.figure(), sns.barplot(y=classes, x=[ii*100 for ii in class_acc])
