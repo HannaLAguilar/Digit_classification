@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 class Classifier(nn.Module):
     def __init__(self):
-        super(Network, self).__init__()
+        super(Classifier, self).__init__()
         self.layer1 = nn.Sequential(
             nn.Conv2d(1, 32, kernel_size=3, padding=1),
             nn.ReLU(),
