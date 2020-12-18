@@ -82,12 +82,14 @@ plt.plot(valid_loss, label='Valid loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
+plt.grid()
 
 plt.subplot(122)
 plt.plot(valid_acc, label='Valid Accuracy', c='orange')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend()
+plt.grid()
 plt.tight_layout()
 
 ######################

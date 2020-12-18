@@ -30,7 +30,7 @@ def prediction(img, model_cnn, model_state, device='cpu'):
     return pred, img_print
 
 
-img_path = 'img/4.PNG'
+img_path = 'img/7.jpg'
 img = cv2.imread(img_path, 0)
 pred, img = prediction(img, Classifier(), 'classifier_digit2.pt')
 plt.figure(), plt.imshow(img)
