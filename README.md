@@ -24,4 +24,3 @@ reached more than 99%, except the number 8 which reached 96%
 An example of a prediction:
 
 <img src="./img/Figure2.PNG" width=30% align="center">
-
