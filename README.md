@@ -12,9 +12,9 @@ the final valid accuracy was 98%. After testing the model, every class
 reached more than 98%, except the number 8 which reached 93% 
 (eight, you are tough!).
  
-<img src="./img/Figure1.png" width=65% align="center">
+<img src="./img/Figure1.PNG" width=65% align="center">
 
-An example of what a prediction looks like:
+An example of a prediction:
 
 <img src="./img/Figure2.png" width=50% align="center">
 
