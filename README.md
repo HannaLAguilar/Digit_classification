@@ -21,6 +21,7 @@ reached more than 99%, except the number 8 which reached 96%
  
 <img src="./img/Figure1.PNG" width=65% align="center">
 
-An example of a prediction:
+An example of a prediction, 
+in parentheses the probability of the prediction:
 
 <img src="./img/Figure2.PNG" width=30% align="center">
